@@ -6,40 +6,40 @@ class StackUsingQueues:
         self.q2 = Queue()
 
     def push(self, value):
+        print(f"Pushed {value}")
         self.q1.put(value)
 
     def pop(self):
-        # Move all elements except the last one from q1 to q2
         while self.q1.qsize() > 1:
             self.q2.put(self.q1.get())
-
-        # Get the last element (top of the stack)
         top_element = self.q1.get()
-
-        # Swap the names of q1 and q2
+        print(f"Popped element: {top_element}")
         self.q1, self.q2 = self.q2, self.q1
-
         return top_element
 
     def top(self):
-        # Similar to pop but re-adds the top element back to the queue
         while self.q1.qsize() > 1:
             self.q2.put(self.q1.get())
-
         top_element = self.q1.get()
         self.q2.put(top_element)
-
         self.q1, self.q2 = self.q2, self.q1
-
+        print(f"Top element: {top_element}")
         return top_element
 
     def is_empty(self):
-        return self.q1.empty()
+        empty = self.q1.empty()
+        print(f"Is stack empty? {empty}")
+        return empty
 
-# Example Usage
+def run_stack_example(stack):
+    stack.push(10)
+    stack.push(20)
+    stack.top()         # Should print: Top element: 20
+    stack.pop()         # Should print: Popped element: 20
+    stack.is_empty()    # Should print: Is stack empty? False
+    stack.pop()         # Should print: Popped element: 10
+    stack.is_empty()    # Should print: Is stack empty? True
+
+# Running the example
 stack = StackUsingQueues()
-stack.push(10)
-stack.push(20)
-print("Top element:", stack.top())  # Output: 20
-print("Popped element:", stack.pop())  # Output: 20
-print("Is stack empty?", stack.is_empty())  # Output: False
+run_stack_example(stack)
